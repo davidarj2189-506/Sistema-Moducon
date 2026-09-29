@@ -1,0 +1,6 @@
+{
+  "summary":  "Plan de implementación para el Sistema de Control de Inventario de Productos en Concreto (MÓD y RECTA). Integra la base de datos oficial del 25-09-2026, motor de cálculo de salidas y entradas diarias con compensación y detección de faltantes, registro flexible (formulario y pegado rápido), vistas idénticas al formato oficial del PDF y exportación/impresión profesional.",
+  "updatedAt":  "2026-09-25T22:25:42.899663783Z",
+  "requestFeedback":  true,
+  "userFacing":  true
+}
