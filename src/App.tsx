@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { CheckCircle2 } from 'lucide-react';
+import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
 import { KpiSummaryCards } from './components/KpiSummaryCards';
 import { DefinitiveReportView } from './components/DefinitiveReportView';
@@ -86,6 +87,9 @@ export default function App() {
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
   const [isNewProductModalOpen, setIsNewProductModalOpen] = useState(false);
   const [statusModalProduct, setStatusModalProduct] = useState<string>('1600TA');
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const [reportSection, setReportSection] = useState<'all' | 'salidas' | 'general' | 'p1' | 'p2'>('all');
+  const [reportSearchTerm, setReportSearchTerm] = useState('');
 
   // Sync to storage
   useEffect(() => {
@@ -418,9 +422,9 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col font-sans selection:bg-[#165a36] selection:text-white">
-      {/* Header & Navigation - Medium dark green */}
-      <Header
+    <div className="min-h-screen bg-zinc-50/70 flex font-sans selection:bg-zinc-900 selection:text-white">
+      {/* Left Sidebar Navigation */}
+      <Sidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         onOpenSingleEntry={() => setIsSingleModalOpen(true)}
@@ -435,21 +439,36 @@ export default function App() {
         totalClients={clients.length}
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
+        isMobileOpen={isMobileSidebarOpen}
+        setIsMobileOpen={setIsMobileSidebarOpen}
       />
 
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      {/* Main Viewport Container */}
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Top Header Bar */}
+        <Header
+          activeTab={activeTab}
+          onToggleMobileSidebar={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+          reportSection={reportSection}
+          setReportSection={setReportSection}
+          reportSearchTerm={reportSearchTerm}
+          setReportSearchTerm={setReportSearchTerm}
+          onPrint={handlePrint}
+        />
+
+        {/* Main Content Area */}
+        <main className="flex-1 max-w-[1600px] w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6">
         
         {/* Sync Feedback Toast Banner */}
         {syncFeedback && (
-          <div className="p-3.5 bg-emerald-50 border border-[#165a36] text-[#165a36] rounded-xl flex items-center justify-between text-xs font-bold shadow-xs animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="p-3 bg-zinc-900 text-white rounded-xl flex items-center justify-between text-xs font-medium shadow-md animate-in fade-in slide-in-from-top-2 duration-200">
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-5 h-5 text-[#165a36] shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>{syncFeedback}</span>
             </div>
             <button
               onClick={() => setSyncFeedback(null)}
-              className="text-emerald-800 hover:text-emerald-950 font-bold px-2 py-0.5 rounded cursor-pointer"
+              className="text-zinc-400 hover:text-white px-2 py-0.5 rounded cursor-pointer"
             >
               ✕
             </button>
@@ -477,6 +496,8 @@ export default function App() {
             totalP1={inventoryCalc.totalP1}
             totalP2={inventoryCalc.totalP2}
             grandTotal={inventoryCalc.grandTotal}
+            activeSection={reportSection}
+            searchTerm={reportSearchTerm}
             onUpdateComment={handleUpdateComment}
             onUpdateReserva={handleUpdateReserva}
             onOpenStatusModal={handleOpenStatusModal}
@@ -562,13 +583,14 @@ export default function App() {
         onUpdateProductStock={handleUpdateCustomProductStock}
       />
 
-      {/* Footer (Hidden on print) - White with light gray border */}
-      <footer className="no-print bg-white border-t border-gray-200 py-4 text-center text-xs text-gray-500 mt-auto">
+      {/* Footer (Hidden on print) */}
+      <footer className="no-print bg-white border-t border-zinc-200/80 py-4 text-center text-xs text-zinc-400 mt-auto">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span className="font-semibold text-gray-700">Sistema de Control de Inventario • Prefabricados en Concreto</span>
-          <span>Base Oficial: 25-09-2026 • Planta 1 (MÓD) &amp; Planta 2 (RECTA) • Catálogo Dinámico &amp; Trazabilidad</span>
+          <span className="font-medium text-zinc-700">Sistema de Control de Inventario · Prefabricados en Concreto</span>
+          <span>Planta 1 (MÓD) · Planta 2 (RECTA) · Base Oficial 25-09-2026</span>
         </div>
       </footer>
+      </div>
     </div>
   );
 }

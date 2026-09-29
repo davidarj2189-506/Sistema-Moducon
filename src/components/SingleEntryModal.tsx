@@ -230,92 +230,76 @@ export const SingleEntryModal: React.FC<SingleEntryModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-xs no-print overflow-y-auto">
-      <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 w-full max-w-lg overflow-hidden my-4 animate-in fade-in zoom-in-95 duration-150">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-zinc-950/30 backdrop-blur-xs no-print overflow-y-auto">
+      <div className="bg-white rounded-xl shadow-xl border border-zinc-200/90 w-full max-w-lg max-h-[92vh] flex flex-col overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-150">
         
-        {/* Header - Medium-dark green */}
-        <div className="px-6 py-4 bg-[#165a36] text-white flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            {type === 'ENTRADA' ? (
-              <div className="p-1.5 bg-white/15 text-white rounded-lg">
-                <ArrowDownRight className="w-5 h-5" />
-              </div>
-            ) : type === 'SALIDA' ? (
-              <div className="p-1.5 bg-white/15 text-white rounded-lg">
-                <ArrowUpRight className="w-5 h-5" />
-              </div>
-            ) : (
-              <div className="p-1.5 bg-white/15 text-white rounded-lg">
-                <RefreshCw className="w-5 h-5" />
-              </div>
-            )}
-            <div>
-              <h3 className="font-bold text-base leading-tight">
-                {type === 'ENTRADA' && 'Registrar Producción / Entrada'}
-                {type === 'SALIDA' && 'Registrar Salida / Entrega'}
-                {type === 'TRASPASO' && 'Traspaso entre Plantas (P1 ⇄ P2)'}
-              </h3>
-              <p className="text-xs text-emerald-100/85">
-                {type === 'ENTRADA' && `Se sumará al stock oficial de ${plant}`}
-                {type === 'SALIDA' && `Se descontará del inventario de ${plant}`}
-                {type === 'TRASPASO' && `Reubicación de patio de ${plant} a ${destPlant} sin reducir el total`}
-              </p>
-            </div>
+        {/* Header - Minimalist */}
+        <div className="px-5 sm:px-6 py-3.5 sm:py-4 border-b border-zinc-100 flex items-center justify-between shrink-0">
+          <div>
+            <h3 className="font-semibold text-sm text-zinc-900 leading-tight">
+              {type === 'ENTRADA' && 'Registrar Producción (Entrada)'}
+              {type === 'SALIDA' && 'Registrar Salida a Obra'}
+              {type === 'TRASPASO' && 'Traspaso Interno (P1 ⇄ P2)'}
+            </h3>
+            <p className="text-xs text-zinc-400 mt-0.5">
+              {type === 'ENTRADA' && `Incrementará las existencias de ${plant}`}
+              {type === 'SALIDA' && `Descontará del inventario de ${plant}`}
+              {type === 'TRASPASO' && `Reubicación de ${plant} a ${destPlant}`}
+            </p>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-emerald-100 hover:text-white rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+            className="p-1.5 text-zinc-400 hover:text-zinc-700 rounded-lg hover:bg-zinc-100 transition-colors cursor-pointer"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 overflow-y-auto flex-1">
           
-          {/* Movement Type Toggle: ENTRADA / SALIDA / TRASPASO */}
+          {/* Movement Type Toggle */}
           <div>
-            <label className="block text-xs font-bold text-gray-800 uppercase tracking-wider mb-1.5">
+            <label className="block text-[11px] font-medium text-zinc-500 uppercase tracking-wider mb-1.5">
               Tipo de Operación
             </label>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-2 bg-zinc-100 p-1 rounded-lg border border-zinc-200/60">
               <button
                 type="button"
                 onClick={() => setType('ENTRADA')}
-                className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-lg border text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-md text-xs font-medium transition-colors cursor-pointer ${
                   type === 'ENTRADA'
-                    ? 'bg-emerald-50 border-[#165a36] text-[#165a36] ring-2 ring-[#165a36]/20 shadow-xs'
-                    : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'
+                    ? 'bg-white text-emerald-800 shadow-xs'
+                    : 'text-zinc-600 hover:text-zinc-900'
                 }`}
               >
-                <ArrowDownRight className="w-4 h-4 text-[#165a36]" />
+                <ArrowDownRight className="w-3.5 h-3.5 text-emerald-600" />
                 <span>Entrada</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setType('SALIDA')}
-                className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-lg border text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-md text-xs font-medium transition-colors cursor-pointer ${
                   type === 'SALIDA'
-                    ? 'bg-rose-50 border-rose-600 text-rose-800 ring-2 ring-rose-500/20 shadow-xs'
-                    : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'
+                    ? 'bg-white text-rose-700 shadow-xs'
+                    : 'text-zinc-600 hover:text-zinc-900'
                 }`}
               >
-                <ArrowUpRight className="w-4 h-4 text-rose-600" />
+                <ArrowUpRight className="w-3.5 h-3.5 text-rose-600" />
                 <span>Salida</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setType('TRASPASO')}
-                className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-lg border text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-md text-xs font-medium transition-colors cursor-pointer ${
                   type === 'TRASPASO'
-                    ? 'bg-blue-50 border-[#165a36] text-[#165a36] ring-2 ring-[#165a36]/20 shadow-xs'
-                    : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'
+                    ? 'bg-white text-sky-800 shadow-xs'
+                    : 'text-zinc-600 hover:text-zinc-900'
                 }`}
-                title="Trasladar piezas de una planta a otra sin sacarlas del inventario total"
               >
-                <RefreshCw className="w-4 h-4 text-[#165a36]" />
+                <RefreshCw className="w-3.5 h-3.5 text-sky-600" />
                 <span>Traspaso</span>
               </button>
             </div>
@@ -732,23 +716,23 @@ export const SingleEntryModal: React.FC<SingleEntryModalProps> = ({
           </div>
 
           {/* Submit and Cancel Buttons */}
-          <div className="pt-2 flex items-center justify-end gap-2 border-t border-gray-200">
+          <div className="pt-3 flex items-center justify-end gap-2 border-t border-zinc-100">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-xs font-semibold text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
+              className="px-3.5 py-1.5 text-xs font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors cursor-pointer"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="px-5 py-2 text-xs font-bold text-white bg-[#165a36] hover:bg-[#12462a] rounded-lg shadow-sm transition-all flex items-center gap-1.5 cursor-pointer"
+              className="px-4 py-1.5 text-xs font-medium text-white bg-zinc-900 hover:bg-zinc-800 rounded-lg shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer"
             >
-              <Check className="w-4 h-4" />
+              <Check className="w-3.5 h-3.5" />
               <span>
-                {type === 'ENTRADA' && 'Confirmar Entrada a Planta'}
-                {type === 'SALIDA' && 'Confirmar Salida a Obra'}
-                {type === 'TRASPASO' && `Confirmar Traspaso de ${plant} a ${destPlant}`}
+                {type === 'ENTRADA' && 'Confirmar Entrada'}
+                {type === 'SALIDA' && 'Confirmar Salida'}
+                {type === 'TRASPASO' && `Confirmar Traspaso a ${destPlant}`}
               </span>
             </button>
           </div>

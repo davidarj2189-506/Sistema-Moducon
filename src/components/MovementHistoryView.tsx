@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { InventoryMovement, ClientRecord } from '../types/inventory';
-import { Search, Trash2, ArrowDownRight, ArrowUpRight, Calendar, Building, UserCheck, RefreshCw } from 'lucide-react';
+import { Search, Trash2, ArrowDownRight, ArrowUpRight, Calendar, Building, RefreshCw, X } from 'lucide-react';
 
 interface MovementHistoryViewProps {
   movements: InventoryMovement[];
@@ -40,80 +40,90 @@ export const MovementHistoryView: React.FC<MovementHistoryViewProps> = ({
   );
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden no-print">
+    <div className="bg-white rounded-xl shadow-xs border border-zinc-200/80 overflow-hidden no-print">
+      
       {/* Filters header */}
-      <div className="p-4 border-b border-slate-200 bg-slate-50/50 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="relative">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+      <div className="p-3 sm:p-4 border-b border-zinc-200/80 bg-zinc-50/50 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2 w-full md:w-auto">
+          
+          {/* Search */}
+          <div className="relative w-full sm:w-56">
+            <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
               placeholder="Buscar producto, cliente o remisión..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-9 pr-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs w-60 focus:outline-none focus:ring-1 focus:ring-slate-900"
+              className="pl-8 pr-7 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs w-full focus:outline-none focus:ring-1 focus:ring-zinc-900"
             />
+            {searchTerm && (
+              <button 
+                onClick={() => setSearchTerm('')}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            )}
           </div>
 
-          <div className="flex items-center gap-1 bg-white border border-gray-300 rounded-lg p-0.5 text-xs">
-            <span className="px-2 text-gray-500 font-medium">Tipo:</span>
+          {/* Type Segmented Filter */}
+          <div className="flex items-center gap-1 bg-zinc-100 p-0.5 rounded-lg border border-zinc-200/60 text-xs overflow-x-auto w-full sm:w-auto">
             <button
               onClick={() => setTypeFilter('ALL')}
-              className={`px-2 py-1 rounded text-xs font-semibold cursor-pointer ${
-                typeFilter === 'ALL' ? 'bg-[#165a36] text-white' : 'text-gray-600 hover:bg-gray-100'
+              className={`px-2.5 py-1 rounded-md font-medium whitespace-nowrap transition-colors cursor-pointer ${
+                typeFilter === 'ALL' ? 'bg-white text-zinc-900 shadow-xs' : 'text-zinc-600 hover:text-zinc-900'
               }`}
             >
               Todos
             </button>
             <button
               onClick={() => setTypeFilter('ENTRADA')}
-              className={`px-2 py-1 rounded text-xs font-semibold cursor-pointer ${
-                typeFilter === 'ENTRADA' ? 'bg-[#165a36] text-white' : 'text-gray-600 hover:bg-gray-100'
+              className={`px-2.5 py-1 rounded-md font-medium whitespace-nowrap transition-colors cursor-pointer ${
+                typeFilter === 'ENTRADA' ? 'bg-white text-emerald-800 shadow-xs' : 'text-zinc-600 hover:text-zinc-900'
               }`}
             >
               Entradas (+)
             </button>
             <button
               onClick={() => setTypeFilter('SALIDA')}
-              className={`px-2 py-1 rounded text-xs font-semibold cursor-pointer ${
-                typeFilter === 'SALIDA' ? 'bg-rose-700 text-white' : 'text-gray-600 hover:bg-gray-100'
+              className={`px-2.5 py-1 rounded-md font-medium whitespace-nowrap transition-colors cursor-pointer ${
+                typeFilter === 'SALIDA' ? 'bg-white text-rose-700 shadow-xs' : 'text-zinc-600 hover:text-zinc-900'
               }`}
             >
               Salidas (-)
             </button>
             <button
               onClick={() => setTypeFilter('TRASPASO')}
-              className={`px-2 py-1 rounded text-xs font-semibold cursor-pointer ${
-                typeFilter === 'TRASPASO' ? 'bg-[#165a36] text-white' : 'text-gray-600 hover:bg-gray-100'
+              className={`px-2.5 py-1 rounded-md font-medium whitespace-nowrap transition-colors cursor-pointer ${
+                typeFilter === 'TRASPASO' ? 'bg-white text-sky-800 shadow-xs' : 'text-zinc-600 hover:text-zinc-900'
               }`}
-              title="Filtrar reubicaciones internas entre plantas"
             >
               Traspasos (⇄)
             </button>
           </div>
 
-          <div className="flex items-center gap-1 bg-white border border-gray-300 rounded-lg p-0.5 text-xs">
-            <span className="px-2 text-gray-500 font-medium">Planta:</span>
+          {/* Plant Segmented Filter */}
+          <div className="flex items-center gap-1 bg-zinc-100 p-0.5 rounded-lg border border-zinc-200/60 text-xs overflow-x-auto">
             <button
               onClick={() => setPlantFilter('ALL')}
-              className={`px-2 py-1 rounded text-xs font-semibold cursor-pointer ${
-                plantFilter === 'ALL' ? 'bg-[#165a36] text-white' : 'text-gray-600 hover:bg-gray-100'
+              className={`px-2.5 py-1 rounded-md font-medium whitespace-nowrap transition-colors cursor-pointer ${
+                plantFilter === 'ALL' ? 'bg-white text-zinc-900 shadow-xs' : 'text-zinc-600 hover:text-zinc-900'
               }`}
             >
               Todas
             </button>
             <button
               onClick={() => setPlantFilter('P1')}
-              className={`px-2 py-1 rounded text-xs font-semibold cursor-pointer ${
-                plantFilter === 'P1' ? 'bg-[#165a36] text-white' : 'text-gray-600 hover:bg-gray-100'
+              className={`px-2.5 py-1 rounded-md font-medium whitespace-nowrap transition-colors cursor-pointer ${
+                plantFilter === 'P1' ? 'bg-white text-zinc-900 shadow-xs' : 'text-zinc-600 hover:text-zinc-900'
               }`}
             >
               P1
             </button>
             <button
               onClick={() => setPlantFilter('P2')}
-              className={`px-2 py-1 rounded text-xs font-semibold cursor-pointer ${
-                plantFilter === 'P2' ? 'bg-[#14532d] text-white' : 'text-gray-600 hover:bg-gray-100'
+              className={`px-2.5 py-1 rounded-md font-medium whitespace-nowrap transition-colors cursor-pointer ${
+                plantFilter === 'P2' ? 'bg-white text-zinc-900 shadow-xs' : 'text-zinc-600 hover:text-zinc-900'
               }`}
             >
               P2
@@ -122,14 +132,13 @@ export const MovementHistoryView: React.FC<MovementHistoryViewProps> = ({
 
           {/* Client Filter */}
           {uniqueClientsInMovements.length > 0 && (
-            <div className="flex items-center gap-1 bg-white border border-gray-300 rounded-lg px-2 py-1 text-xs">
-              <Building className="w-3.5 h-3.5 text-[#165a36]" />
+            <div className="flex items-center bg-white border border-zinc-200 rounded-lg px-2.5 py-1 text-xs w-full sm:w-auto">
               <select
                 value={clientFilter}
                 onChange={(e) => setClientFilter(e.target.value)}
-                className="bg-transparent text-gray-700 font-medium focus:outline-none cursor-pointer"
+                className="bg-transparent text-zinc-700 font-medium focus:outline-none cursor-pointer w-full"
               >
-                <option value="ALL">Todos los Clientes</option>
+                <option value="ALL">Todos los clientes</option>
                 {uniqueClientsInMovements.map((cl) => (
                   <option key={cl} value={cl}>
                     {cl}
@@ -147,121 +156,104 @@ export const MovementHistoryView: React.FC<MovementHistoryViewProps> = ({
                 onClearAllMovements();
               }
             }}
-            className="text-xs text-rose-600 hover:text-rose-800 font-medium flex items-center gap-1 hover:underline"
+            className="text-xs text-zinc-400 hover:text-rose-600 transition-colors flex items-center gap-1 cursor-pointer self-end md:self-auto shrink-0"
+            title="Borrar movimientos"
           >
             <Trash2 className="w-3.5 h-3.5" />
-            <span>Eliminar todos los movimientos</span>
+            <span>Limpiar registros</span>
           </button>
         )}
       </div>
 
+      <div className="sm:hidden text-right text-[10px] text-zinc-400 px-3 py-1.5 border-b border-zinc-100 bg-zinc-50/30">
+        <span>Desliza para ver columnas ➔</span>
+      </div>
+
       {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full text-xs text-left border-collapse">
-          <thead className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+      <div className="overflow-x-auto touch-pan-x">
+        <table className="w-full text-xs text-left border-collapse min-w-[760px]">
+          <thead className="bg-zinc-50 text-zinc-600 font-medium border-b border-zinc-200">
             <tr>
-              <th className="p-3">Fecha / Hora</th>
-              <th className="p-3">Operación</th>
-              <th className="p-3">Producto</th>
-              <th className="p-3">Cliente / Solicitante</th>
-              <th className="p-3 text-center">Planta</th>
-              <th className="p-3 text-center">Cantidad</th>
-              <th className="p-3">Referencia / Obra</th>
-              <th className="p-3">Comentario Físico</th>
-              <th className="p-3 text-right">Acción</th>
+              <th className="p-2.5">Fecha · Hora</th>
+              <th className="p-2.5">Operación</th>
+              <th className="p-2.5">Producto</th>
+              <th className="p-2.5">Cliente / Obra</th>
+              <th className="p-2.5 text-center">Planta</th>
+              <th className="p-2.5 text-center">Cantidad</th>
+              <th className="p-2.5">Referencia</th>
+              <th className="p-2.5">Comentario</th>
+              <th className="p-2.5 text-right">Acción</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-200">
+          <tbody className="divide-y divide-zinc-100">
             {filteredMovements.map((m) => (
-              <tr key={m.id} className="hover:bg-slate-50 transition-colors">
-                <td className="p-3 text-slate-600 whitespace-nowrap">
-                  <div className="flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                    <span>{m.date} {m.time}</span>
-                  </div>
+              <tr key={m.id} className="hover:bg-zinc-50/70 transition-colors">
+                <td className="p-2.5 text-zinc-500 whitespace-nowrap font-mono text-[11px]">
+                  {m.date} {m.time}
                 </td>
-                <td className="p-3 whitespace-nowrap">
+                <td className="p-2.5 whitespace-nowrap">
                   {m.type === 'ENTRADA' ? (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800">
-                      <ArrowDownRight className="w-3 h-3 text-emerald-600" />
-                      Producción (+)
+                    <span className="font-semibold text-emerald-700 inline-flex items-center gap-1 font-mono">
+                      <ArrowDownRight className="w-3.5 h-3.5" />
+                      Entrada (+)
                     </span>
                   ) : m.type === 'SALIDA' ? (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-100 text-rose-800">
-                      <ArrowUpRight className="w-3 h-3 text-rose-600" />
-                      Salida / Entrega (-)
+                    <span className="font-semibold text-rose-600 inline-flex items-center gap-1 font-mono">
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                      Salida (-)
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-sky-100 text-sky-800 border border-sky-200">
-                      <RefreshCw className="w-3 h-3 text-sky-600" />
-                      Traspaso Interno (⇄)
+                    <span className="font-semibold text-sky-700 inline-flex items-center gap-1 font-mono">
+                      <RefreshCw className="w-3 h-3" />
+                      Traspaso (⇄)
                     </span>
                   )}
                 </td>
-                <td className="p-3 font-bold text-slate-900">{m.product}</td>
-                <td className="p-3">
+                <td className="p-2.5 font-semibold text-zinc-900">{m.product}</td>
+                <td className="p-2.5 text-zinc-700">
                   {m.type === 'TRASPASO' ? (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-sky-50 text-sky-800 border border-sky-200">
-                      Almacenamiento en Patio
-                    </span>
+                    <span className="text-zinc-400">Reubicación en Patio</span>
                   ) : m.client ? (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-50 text-[#165a36] border border-emerald-200">
-                      <Building className="w-3 h-3 text-[#165a36]" />
-                      {m.client}
-                    </span>
+                    <span className="font-medium text-zinc-800">{m.client}</span>
                   ) : (
-                    <span className="text-slate-400 italic">No especificado</span>
+                    <span className="text-zinc-300">—</span>
                   )}
                 </td>
-                <td className="p-3 text-center">
+                <td className="p-2.5 text-center text-zinc-600 font-mono">
                   {m.type === 'TRASPASO' ? (
-                    <span className="px-2 py-0.5 bg-sky-50 border border-sky-300 rounded font-bold text-sky-900 text-[11px]">
-                      {m.plant} ➔ {m.destPlant || (m.plant === 'P1' ? 'P2' : 'P1')}
-                    </span>
+                    <span>{m.plant} ➔ {m.destPlant || (m.plant === 'P1' ? 'P2' : 'P1')}</span>
                   ) : (
-                    <span className="px-2 py-0.5 bg-slate-100 border border-slate-300 rounded font-semibold text-slate-700">
-                      {m.plant}
-                    </span>
+                    <span>{m.plant}</span>
                   )}
                 </td>
-                <td className="p-3 text-center font-black font-mono text-sm">
+                <td className="p-2.5 text-center font-mono-numbers font-semibold">
                   {m.type === 'ENTRADA' && <span className="text-emerald-700">+{m.quantity}</span>}
-                  {m.type === 'SALIDA' && <span className="text-rose-700">-{m.quantity}</span>}
-                  {m.type === 'TRASPASO' && (
-                    <span className="text-sky-700 font-bold" title="Traspaso interno: El total del inventario no disminuye">
-                      ⇄ {m.quantity}
-                    </span>
-                  )}
+                  {m.type === 'SALIDA' && <span className="text-rose-600">-{m.quantity}</span>}
+                  {m.type === 'TRASPASO' && <span className="text-sky-700">⇄ {m.quantity}</span>}
                 </td>
-                <td className="p-3 text-slate-700 font-medium">{m.reference || '—'}</td>
-                <td className="p-3 text-slate-600">
+                <td className="p-2.5 text-zinc-600">{m.reference || '—'}</td>
+                <td className="p-2.5 text-zinc-600 text-[11px]">
                   {m.comment ? (
-                    <span className="text-amber-800 font-medium bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
-                      {m.comment}
-                    </span>
+                    <span className="text-amber-900 font-medium">{m.comment}</span>
                   ) : (
-                    '—'
+                    <span className="text-zinc-300">—</span>
                   )}
                 </td>
-                <td className="p-3 text-right">
+                <td className="p-2.5 text-right">
                   <button
                     onClick={() => onDeleteMovement(m.id)}
-                    className="p-1 text-slate-400 hover:text-rose-600 rounded transition-colors"
-                    title="Deshacer este movimiento"
+                    className="p-1 text-zinc-400 hover:text-rose-600 rounded transition-colors cursor-pointer"
+                    title="Eliminar este movimiento"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </td>
               </tr>
             ))}
-
             {filteredMovements.length === 0 && (
               <tr>
-                <td colSpan={9} className="p-8 text-center text-slate-500">
-                  <p className="font-semibold text-sm">No hay movimientos registrados</p>
-                  <p className="text-xs mt-1 text-slate-400">
-                    Registra nuevas entradas o salidas usando el botón "Nuevo Registro" o "Carga Rápida".
-                  </p>
+                <td colSpan={9} className="p-8 text-center text-zinc-400">
+                  No se encontraron movimientos registrados con estos filtros.
                 </td>
               </tr>
             )}

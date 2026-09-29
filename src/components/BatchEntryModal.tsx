@@ -102,29 +102,24 @@ CRP 2X2/1/P2/
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs no-print">
-      <div className="bg-white rounded-2xl shadow-2xl border border-slate-300 w-full max-w-2xl max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/30 backdrop-blur-xs no-print">
+      <div className="bg-white rounded-xl shadow-xl border border-zinc-200/90 w-full max-w-2xl max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
         
         {/* Header */}
-        <div className="px-6 py-4 bg-[#165a36] text-white flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-white/10 rounded-lg text-emerald-200">
-              <ClipboardPaste className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="font-bold text-base leading-tight">
-                Carga Rápida por Lote (Formato: producto/cant/p#/)
-              </h3>
-              <p className="text-xs text-emerald-100/80">
-                Ingresa tus movimientos masivos usando el separador de barra diagonal.
-              </p>
-            </div>
+        <div className="px-6 py-4 border-b border-zinc-100 flex items-center justify-between shrink-0">
+          <div>
+            <h3 className="font-semibold text-sm text-zinc-900 leading-tight">
+              Carga Rápida por Lote
+            </h3>
+            <p className="text-xs text-zinc-400 mt-0.5">
+              Pega líneas en formato: <code className="font-mono text-zinc-600">producto/cant/p#/</code>
+            </p>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-emerald-200 hover:text-white rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+            className="p-1.5 text-zinc-400 hover:text-zinc-700 rounded-lg hover:bg-zinc-100 transition-colors cursor-pointer"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
@@ -133,34 +128,34 @@ CRP 2X2/1/P2/
           
           {/* Section Mode Toggle Buttons (AGREGAR vs SALIDA) */}
           <div className="space-y-1.5">
-            <label className="font-bold text-slate-800 uppercase tracking-wider block text-[11px]">
-              Tipo de Operación del Lote:
+            <label className="font-medium text-zinc-500 uppercase tracking-wider block text-[11px]">
+              Operación del Lote:
             </label>
-            <div className="grid grid-cols-2 gap-3 p-1.5 bg-slate-100 rounded-xl border border-slate-200">
+            <div className="grid grid-cols-2 gap-2 p-1 bg-zinc-100 rounded-lg border border-zinc-200/60">
               <button
                 type="button"
                 onClick={() => handleSwitchMode('ENTRADA')}
-                className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center justify-center gap-2 py-2 px-3 rounded-md text-xs font-medium transition-colors cursor-pointer ${
                   batchMode === 'ENTRADA'
-                    ? 'bg-[#165a36] text-white shadow-sm ring-2 ring-[#165a36]/30'
-                    : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
+                    ? 'bg-white text-emerald-800 shadow-xs'
+                    : 'text-zinc-600 hover:text-zinc-900'
                 }`}
               >
-                <ArrowDownLeft className="w-4 h-4 text-emerald-300" />
-                <span>📥 AGREGAR / ENTRADA A INVENTARIO</span>
+                <ArrowDownLeft className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Entrada / Producción (+)</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => handleSwitchMode('SALIDA')}
-                className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center justify-center gap-2 py-2 px-3 rounded-md text-xs font-medium transition-colors cursor-pointer ${
                   batchMode === 'SALIDA'
-                    ? 'bg-rose-700 text-white shadow-sm ring-2 ring-rose-700/30'
-                    : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
+                    ? 'bg-white text-rose-700 shadow-xs'
+                    : 'text-zinc-600 hover:text-zinc-900'
                 }`}
               >
-                <ArrowUpRight className="w-4 h-4 text-rose-300" />
-                <span>📤 SALIDA / RETIRAR DE INVENTARIO</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-rose-600" />
+                <span>Salida / Despacho (-)</span>
               </button>
             </div>
           </div>
@@ -288,11 +283,11 @@ CRP 2X2/1/P2/
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-3.5 bg-slate-50 border-t border-slate-200 flex items-center justify-end gap-2 shrink-0">
+        <div className="px-6 py-3.5 border-t border-zinc-100 flex items-center justify-end gap-2 shrink-0">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 font-semibold text-slate-600 hover:text-slate-800 hover:bg-slate-200/60 rounded-lg transition-colors cursor-pointer"
+            className="px-3.5 py-1.5 text-xs font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors cursor-pointer"
           >
             Cancelar
           </button>
@@ -300,13 +295,13 @@ CRP 2X2/1/P2/
             type="button"
             disabled={!parsedResult || parsedResult.movements.length === 0}
             onClick={handleConfirm}
-            className={`px-5 py-2 font-bold rounded-lg shadow-xs flex items-center gap-1.5 transition-all cursor-pointer ${
+            className={`px-4 py-1.5 text-xs font-medium rounded-lg shadow-xs flex items-center gap-1.5 transition-colors cursor-pointer ${
               parsedResult && parsedResult.movements.length > 0
-                ? 'bg-[#165a36] hover:bg-[#12462a] text-white'
-                : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                ? 'bg-zinc-900 hover:bg-zinc-800 text-white'
+                : 'bg-zinc-100 text-zinc-400 cursor-not-allowed'
             }`}
           >
-            <CheckCircle2 className="w-4 h-4" />
+            <CheckCircle2 className="w-3.5 h-3.5" />
             <span>Aplicar al Inventario ({parsedResult?.movements?.length || 0})</span>
           </button>
         </div>

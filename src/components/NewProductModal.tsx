@@ -126,59 +126,56 @@ export const NewProductModal: React.FC<NewProductModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-xs no-print overflow-y-auto">
-      <div className="bg-white rounded-2xl shadow-2xl border border-slate-300 w-full max-w-xl overflow-hidden my-4 animate-in fade-in zoom-in-95 duration-150 flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-zinc-950/30 backdrop-blur-xs no-print overflow-y-auto">
+      <div className="bg-white rounded-xl shadow-xl border border-zinc-200/90 w-full max-w-xl overflow-hidden my-4 animate-in fade-in zoom-in-95 duration-150 flex flex-col max-h-[90vh]">
         
-        {/* Header - Medium-dark green */}
-        <div className="px-6 py-4 bg-[#165a36] text-white flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-white/10 rounded-lg text-emerald-200">
-              <PackagePlus className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="font-bold text-base leading-tight">
-                Gestión de Catálogo de Productos
-              </h3>
-              <p className="text-xs text-emerald-100/80">
-                Registra nuevos modelos o elimina productos incorporados del inventario
-              </p>
-            </div>
+        {/* Header */}
+        <div className="px-6 py-4 border-b border-zinc-100 flex items-center justify-between">
+          <div>
+            <h3 className="font-semibold text-sm text-zinc-900 leading-tight">
+              Catálogo de Productos
+            </h3>
+            <p className="text-xs text-zinc-400 mt-0.5">
+              Registra nuevos modelos o administra los productos incorporados
+            </p>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-emerald-200 hover:text-white rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+            className="p-1.5 text-zinc-400 hover:text-zinc-700 rounded-lg hover:bg-zinc-100 transition-colors cursor-pointer"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Tab selection */}
-        <div className="flex border-b border-gray-200 bg-gray-50 px-6 pt-2">
-          <button
-            type="button"
-            onClick={() => setActiveTab('create')}
-            className={`py-2 px-4 text-xs font-bold border-b-2 transition-all cursor-pointer flex items-center gap-1.5 ${
-              activeTab === 'create'
-                ? 'border-[#165a36] text-[#165a36] bg-white rounded-t-lg'
-                : 'border-transparent text-gray-500 hover:text-gray-800'
-            }`}
-          >
-            <PackagePlus className="w-3.5 h-3.5" />
-            <span>+ Registrar Nuevo Producto</span>
-          </button>
+        <div className="p-3 bg-zinc-50 border-b border-zinc-100">
+          <div className="grid grid-cols-2 gap-1 bg-zinc-100 p-1 rounded-lg border border-zinc-200/60">
+            <button
+              type="button"
+              onClick={() => setActiveTab('create')}
+              className={`py-1.5 px-3 text-xs font-medium rounded-md transition-colors cursor-pointer flex items-center justify-center gap-1.5 ${
+                activeTab === 'create'
+                  ? 'bg-white text-zinc-900 shadow-xs'
+                  : 'text-zinc-600 hover:text-zinc-900'
+              }`}
+            >
+              <PackagePlus className="w-3.5 h-3.5" />
+              <span>Registrar Nuevo Producto</span>
+            </button>
 
-          <button
-            type="button"
-            onClick={() => setActiveTab('manage')}
-            className={`py-2 px-4 text-xs font-bold border-b-2 transition-all cursor-pointer flex items-center gap-1.5 ${
-              activeTab === 'manage'
-                ? 'border-[#165a36] text-[#165a36] bg-white rounded-t-lg'
-                : 'border-transparent text-gray-500 hover:text-gray-800'
-            }`}
-          >
-            <List className="w-3.5 h-3.5" />
-            <span>Productos Agregados ({customProducts.length})</span>
-          </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('manage')}
+              className={`py-1.5 px-3 text-xs font-medium rounded-md transition-colors cursor-pointer flex items-center justify-center gap-1.5 ${
+                activeTab === 'manage'
+                  ? 'bg-white text-zinc-900 shadow-xs'
+                  : 'text-zinc-600 hover:text-zinc-900'
+              }`}
+            >
+              <List className="w-3.5 h-3.5" />
+              <span>Productos Agregados ({customProducts.length})</span>
+            </button>
+          </div>
         </div>
 
         {/* Tab 1: Create */}
@@ -323,19 +320,19 @@ export const NewProductModal: React.FC<NewProductModalProps> = ({
             </div>
 
             {/* Actions */}
-            <div className="pt-2 flex items-center justify-end gap-2 border-t border-slate-200">
+            <div className="pt-3 flex items-center justify-end gap-2 border-t border-zinc-100">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+                className="px-3.5 py-1.5 text-xs font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors cursor-pointer"
               >
                 Cancelar
               </button>
               <button
                 type="submit"
-                className="px-5 py-2 text-xs font-bold text-white bg-[#165a36] hover:bg-[#12462a] rounded-lg shadow-sm transition-all flex items-center gap-1.5 cursor-pointer"
+                className="px-4 py-1.5 text-xs font-medium text-white bg-zinc-900 hover:bg-zinc-800 rounded-lg shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer"
               >
-                <Check className="w-4 h-4" />
+                <Check className="w-3.5 h-3.5" />
                 <span>Registrar e Incorporar al Inventario</span>
               </button>
             </div>
